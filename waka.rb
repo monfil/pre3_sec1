@@ -1,15 +1,5 @@
 class WakaWaka
-=begin
-    @@dicc = {"waka" => '<', "bang" => '!', "splat" => '*', "tick" => "'",
-     "hash" => '#', "caret" => '^', "quote" => '"', "back_tick" => '`', "dollar" => '$', 
-     "dash" => '-', "equal" => '=', "at" => '@', "underscore" => '_', "percent" => '%', 
-     "tilde" => '~', "four" => '4'}
-=end
-  @@dicc = {'<' => 'Waka', '>' => 'waka', '!' => 'bang', '*' => 'splat', "'" => 'tick', 
-    '#' => 'hash', '^' => 'Caret', '"' => 'quote', '`' => 'back_tick', '$' => 'dollar', 
-    '-' => 'dash', '@' => 'at', '_' => 'underscore', '%' => 'percent', '~' => 'tilde',
-    '4' => 'four'}
-
+  @@dicc = {',' => ',', '<' => 'Waka', '>' => 'waka', '!' => 'bang', '*' => 'splat', "'" => 'tick', '#' => 'hash', '^' => 'Caret', '"' => 'quote', '`' => 'back_tick', '$' => 'dollar', '-' => 'dash', '@' => 'at', '_' => 'underscore', '%' => 'percent', '~' => 'tilde', '4' => 'four'}
 	
   def initialize(code)
     @code = code 
@@ -17,44 +7,36 @@ class WakaWaka
 
   def translate
     r = []
-    @code.each_char do |c|
-    	if @@dicc.has_key?(c)
-        r.push(@@dicc.values_at(c))
-      end
-    end
-
-    l1 = ""
+    line = ""
+    @code.each_char {|c| r << @@dicc[c]}
+    r.compact!
+    r.delete(" ")
+    p r
+    i = 0
+    j = 0
     @code.each_char do |cod|
       if cod != ","
-        l1.concat("#{cod} \t")
+        cod != " " ? i += 1 : i
+        line.concat("#{cod} \t")
       else
-        puts l1
-        l1 = ""
-  
-        #r.each {|word| print "#{word} \t"}
-        
-
-        #l2 = r.each {|word| "#{word} \t"}
-        #p l2
-        #l2 = ""
+        puts line
+        line = ""
+        # while j < i do
+        #   if r[j] != ","
+        #     line.concat("#{r[j]} \t\t") 
+        #     j += 1
+        #   else  
+        #     puts line
+        #     line = ""
+        #   end
+          
+        # end
+        p i
       end
     end
-
-    #p l1
-
-
-    #r.each do |c|
-      #line = ""
-      #if c == ","
-        #line.concat("\n")
-      #else
-        #line.concat("#{c} \t")
-      #end
-      #p line
-    #end
   end
 
 end
 
-waka_code = WakaWaka.new('< > ! * ' ' #,^ " ` $ $ -,! * = @ $ _,% * < > ~ # 4')
+waka_code = WakaWaka.new("< > ! * \' \' #,^ \" ` $ $ -,! * = @ $ _,% * < > ~ # 4,")
 waka_code.translate
