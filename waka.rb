@@ -1,6 +1,6 @@
 class WakaWaka
-  @@dicc = {',' => ',', '<' => 'Waka', '>' => 'waka', '!' => 'bang', '*' => 'splat', "'" => 'tick', '#' => 'hash', '^' => 'Caret', '"' => 'quote', '`' => 'back_tick', '$' => 'dollar', '-' => 'dash', '@' => 'at', '_' => 'underscore', '%' => 'percent', '~' => 'tilde', '4' => 'four'}
-	
+  @@dicc = {',' => ',', '<' => 'Waka', '>' => 'waka', '!' => 'bang', '*' => 'splat', "'" => 'tick', '#' => 'hash', '^' => 'Caret', '"' => 'quote', '`' => 'back_tick', '$' => 'dollar', '-' => 'dash', '=' => 'equal', '@' => 'at', '_' => 'underscore', '%' => 'percent', '~' => 'tilde', '4' => 'four'}
+  
   def initialize(code)
     @code = code 
   end  
@@ -11,27 +11,32 @@ class WakaWaka
     @code.each_char {|c| r << @@dicc[c]}
     r.compact!
     r.delete(" ")
-    p r
+    @code.delete!(" ")
+
     i = 0
     j = 0
+    p r
+    p @code
+    p "*" * 100
     @code.each_char do |cod|
       if cod != ","
-        cod != " " ? i += 1 : i
-        line.concat("#{cod} \t")
+        line += "#{cod}"
+        i += 1
       else
-        puts line
+        p line
         line = ""
-        # while j < i do
-        #   if r[j] != ","
-        #     line.concat("#{r[j]} \t\t") 
-        #     j += 1
-        #   else  
-        #     puts line
-        #     line = ""
-        #   end
-          
-        # end
-        p i
+        while j <= i do
+          if r[j] != ","
+            j += 1
+            line.concat("#{r[j]}")
+          else
+            j += 1
+          end
+        end
+          puts line
+          line = ""
+          p i
+          p j
       end
     end
   end
